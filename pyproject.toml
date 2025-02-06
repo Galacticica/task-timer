@@ -9,7 +9,7 @@ dependencies = [
 ]
 
 [project.scripts]
-task-timer = "task_timer:cli"
+task-timer = "task_timer:main"
  
 [tool.uv]
 package = true
