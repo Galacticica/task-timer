@@ -1,32 +1,43 @@
 from .task import Task, task_list
 import click
 
-@click.group()
-def view_tasks():
-    '''View tasks'''
-    pass
 
-@view_tasks.command()
+
+@click.command()
+@click.option("--status", default="all", help="Filter tasks by status")
+def view_tasks(status):
+    '''View tasks'''
+    if status == "all":
+        view_all_tasks()
+    elif status == "running":
+        view_running_tasks()
+    elif status == "completed":
+        view_completed_tasks()
+    else:
+        click.echo("Invalid status")
+        return
+    
+
 def view_all_tasks():
     '''View all tasks'''
     for task in task_list:
         click.echo(task)
 
-@view_tasks.command()
+
 def view_running_tasks():
     '''View running tasks'''
     for task in task_list:
         if task.status == "In Progress":
             click.echo(task)
 
-@view_tasks.command()
+
 def view_completed_tasks():
     '''View completed tasks'''
     for task in task_list:
         if task.status == "Complete":
             click.echo(task)
 
-@view_tasks.command()
+@click.command()
 def end_task():
     '''End a task'''
     task_name = click.prompt("Enter the name of the task you would like to end")
