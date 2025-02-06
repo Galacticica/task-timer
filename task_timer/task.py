@@ -17,3 +17,5 @@ class Task():
         self.end_time = datetime.datetime.now()
         self.status = "Complete"
         self.time_taken = self.end_time - self.start_time
+
+task_list = []
