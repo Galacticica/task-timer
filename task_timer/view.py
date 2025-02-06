@@ -1,5 +1,6 @@
-from .task import Task, task_list
+from .task import Task, save_tasks, load_tasks
 import click
+import pickle
 
 
 
@@ -20,12 +21,14 @@ def view_tasks(status):
 
 def view_all_tasks():
     '''View all tasks'''
+    task_list = load_tasks()
     for task in task_list:
         click.echo(task)
 
 
 def view_running_tasks():
     '''View running tasks'''
+    task_list = load_tasks()
     for task in task_list:
         if task.status == "In Progress":
             click.echo(task)
@@ -33,6 +36,7 @@ def view_running_tasks():
 
 def view_completed_tasks():
     '''View completed tasks'''
+    task_list = load_tasks()
     for task in task_list:
         if task.status == "Complete":
             click.echo(task)
@@ -41,10 +45,12 @@ def view_completed_tasks():
 def end_task():
     '''End a task'''
     task_name = click.prompt("Enter the name of the task you would like to end")
+    task_list = load_tasks()
     for task in task_list:
         if task.name == task_name:
             task.end_task()
             click.echo(f"Task {task.name} has been completed")
+            save_tasks(task_list)
             return
     click.echo(f"Task {task_name} not found")
 

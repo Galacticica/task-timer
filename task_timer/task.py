@@ -1,4 +1,6 @@
 import datetime
+import pickle
+import os
 
 class Task():
 
@@ -6,6 +8,8 @@ class Task():
         self.name = name
         self.start_time = start_time
         self.status = status
+        self.end_time = None
+        self.time_taken = None
 
     def __str__(self):
         return f"{self.name} started at {self.start_time} and is {self.status}"
@@ -18,4 +22,14 @@ class Task():
         self.status = "Complete"
         self.time_taken = self.end_time - self.start_time
 
-task_list = []
+def load_tasks():
+    """Load tasks from the pickle file."""
+    if os.path.exists('tasks.pkl'):
+        with open('tasks.pkl', "rb") as f:
+            return pickle.load(f)
+    return []
+
+def save_tasks(tasks):
+    """Save tasks to the pickle file."""
+    with open('tasks.pkl', "wb") as f:
+        pickle.dump(tasks, f)
